@@ -30,6 +30,11 @@
     </properties>
     <name>Sofy.ai Jenkins Plugin</name>
     <description>Conduct Tests for your Website and Mobile Builds using Sofy.ai</description>
+    <scm>
+         <connection>scm:git:ssh://github.com/jenkinsci/SofyJenkinsPlugin.git</connection>
+         <developerConnection>scm:git:ssh://git@github.com/jenkinsci/SofyJenkinsPlugin.git</developerConnection>
+         <url>https://github.com/jenkinsci/SofyJenkinsPlugin</url>
+    </scm>
     <licenses>
         <license>
             <name>MIT License</name>

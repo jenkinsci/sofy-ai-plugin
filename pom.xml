@@ -21,14 +21,14 @@
         <relativePath/>
     </parent>
     <groupId>io.jenkins.plugins</groupId>
-    <artifactId>sofy_ai</artifactId>
+    <artifactId>sofy-ai</artifactId>
     <version>1.0</version>
     <packaging>hpi</packaging>
     <properties>
         <jenkins.version>2.7.3</jenkins.version>
         <java.level>8</java.level>
     </properties>
-    <name>Sofy.ai Jenkins Plugin</name>
+    <name>Sofy.AI Plugin</name>
     <description>Conduct Tests for your Website and Mobile Builds using Sofy.ai</description>
     <scm>
          <connection>scm:git:ssh://github.com/jenkinsci/SofyJenkinsPlugin.git</connection>

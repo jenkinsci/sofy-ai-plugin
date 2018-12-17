@@ -1,0 +1,4 @@
+<?jelly escape-by-default='true'?>
+<div>
+    Sofy.ai Jenkins Plugin -- stage tests on Sofy.ai through your jenkins pipeline
+</div>

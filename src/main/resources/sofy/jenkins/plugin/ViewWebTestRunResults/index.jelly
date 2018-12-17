@@ -1,0 +1,88 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:l="/lib/layout" xmlns:st="jelly:stapler" xmlns:j2="jelly:core">
+    <l:layout title="Sofy.ai Test Run Summary">
+        <l:side-panel>
+            <st:include page="sidepanel.jelly" it="${it.run}" optional="true"/>
+        </l:side-panel>
+
+        <l:main-panel>
+
+            <script>
+                let id = '${it.webTestRun.WebTestRunID}';
+                let token = '${it.apiToken}';
+
+                fetch("https://api.sofy.ai/v1/websites/testresults/summary?testrunid=" + id, {
+                    headers: {
+                        "SubscriptionKey": token
+                    }
+                }).then(res => res.json())
+                        .then(data => data[0] || data)
+                        .then((summary) => {
+                            document.getElementById('performance_td').innerHTML = summary.Audit_Performance_Score + "%";
+                            document.getElementById('bestpractice_td').innerHTML = summary.Audit_BestPractices_Score + "%";
+                            document.getElementById('progressive_td').innerHTML = summary.Audit_Progressive_Score + "%";
+                            document.getElementById('seo_td').innerHTML = summary.Audit_SEO_Score + "%";
+                            document.getElementById('accessibility_td').innerHTML = summary.Audit_Accessibility_Score + "%";
+
+                        })
+                        .catch(e => console.log(e));
+            </script>
+
+            <style type="text/css">
+                .jenkins_content_wrpr{max-width: 800px; width: 100%; margin: 30px auto; font-size: 14px; background:
+                #FFF; border: #DDD solid 1px; padding: 20px;}
+                .content_div{margin: 10px 0;}
+                .jenkins_content_wrpr h1{font-size: 30px; margin-bottom: 20px; font-weight: 700;}
+                .jenkins_content_wrpr h2{font-size: 26px; margin-bottom: 20px; font-weight: 700;}
+                .jenkins_content_wrpr h3{font-size: 20px; margin-bottom: 20px; font-weight: 700;}
+                .jenkins_content_wrpr h4{font-size: 18px; margin-bottom: 20px; font-weight: 700;}
+                .jenkins_content_wrpr p{margin-bottom: 10px;}
+                a.viewrsults_link{background: #4e76bc; display: inline-block; padding: 10px 30px; color: #FFF;
+                text-decoration: none;}
+                a.viewrsults_link:hover{background: #1f4d9c; color:#FFF; text-decoration: none;}
+                .jsonashtml{background: #f5f5f5; padding: 20px; margin: 20px 0;}
+                .audit_table{border: #DDD solid 1px; font-size: 14px; margin-top: 15px;}
+                .audit_table tr th{border: #DDD solid 1px; padding: 10px; font-weight: bold;}
+                .audit_table tr td{border: #DDD solid 1px; padding: 10px;}
+            </style>
+
+            <div class="jenkins_content_wrpr">
+                <div class="content_div">
+
+                    <h2>Website Summary</h2>
+
+                    <p><b>App Name</b>: ${it.webTestRun.URL}
+                    </p>
+
+                    <p><b>Test Scheduled At</b>: ${it.webTestRun.CreatedDatetime}
+                    </p>
+
+                    <p>
+                        <a href="https://www.sofy.ai/loginpage" target="_blank" class="viewrsults_link">
+                            View Detailed Results on Sofy.ai
+                        </a>
+                    </p>
+
+                    <table width="100%" class="audit_table" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <th>Performance</th>
+                            <th>Progressive</th>
+                            <th>Best Practice</th>
+                            <th>SEO</th>
+                            <th>Accessibility</th>
+                        </tr>
+                        <tr>
+                            <td id="performance_td"></td>
+                            <td id="progressive_td"></td>
+                            <td id="bestpractice_td"></td>
+                            <td id="seo_td"></td>
+                            <td id="accessibility_td"></td>
+
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+        </l:main-panel>
+    </l:layout>
+</j:jelly>

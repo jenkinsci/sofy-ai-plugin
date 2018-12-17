@@ -1,0 +1,110 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:l="/lib/layout" xmlns:st="jelly:stapler">
+    <l:layout title="Sofy.ai Test Run Summary">
+        <l:side-panel>
+            <st:include page="sidepanel.jelly" it="${it.run}" optional="true"/>
+        </l:side-panel>
+        <l:main-panel>
+
+            <script>
+
+                function getPercentage(num, total) {
+                    return +(Math.round(num / total + "e+2") + "e-2") * 100 + "%";
+                }
+
+                let id = '${it.mobileTestRun.TestRunId}';
+                let token = '${it.apiToken}';
+
+                fetch("https://api.sofy.ai/v1/applications/testresults/summary?testrunid=" + id, {
+                    headers: {
+                        "SubscriptionKey": token
+                    }
+                }).then(res => res.json())
+                        .then(data => data[0] || data)
+                        .then(summary => {
+                            if (summary) {
+                                document.getElementById('performance_td')
+                                        .innerHTML = getPercentage(summary.Audit_Performance_Passed, summary.Audit_Performance_Total);
+                                document.getElementById('visualquality_td')
+                                        .innerHTML = getPercentage(summary.Audit_VisualQuality_Passed, summary.Audit_VisualQuality_Total);
+                                document.getElementById('bestpractice_td')
+                                        .innerHTML = getPercentage(summary.Audit_Bestpractices_Passed, summary.Audit_Bestpractices_Total);
+                                document.getElementById('security_td')
+                                        .innerHTML = getPercentage(summary.Audit_Security_Passed, summary.Audit_Security_Total);
+                                document.getElementById('reliability_td')
+                                        .innerHTML = getPercentage(summary.Audit_Reliability_Passed, summary.Audit_Reliability_Total);
+                            } else {
+                                document.getElementById('performance_td')
+                                        .innerHTML = 'N/A';
+                                document.getElementById('visualquality_td')
+                                        .innerHTML = 'N/A';
+                                document.getElementById('bestpractice_td')
+                                        .innerHTML = 'N/A';
+                                document.getElementById('security_td')
+                                        .innerHTML = 'N/A';
+                                document.getElementById('reliability_td')
+                                        .innerHTML = 'N/A';
+                            }
+
+                        })
+                        .catch(e => console.log(e));
+            </script>
+
+            <style type="text/css">
+                .jenkins_content_wrpr{max-width: 800px; width: 100%; margin: 30px auto; font-size: 14px; background:
+                #FFF; border: #DDD solid 1px; padding: 20px;}
+                .content_div{margin: 10px 0;}
+                .jenkins_content_wrpr h1{font-size: 30px; margin-bottom: 20px; font-weight: 700;}
+                .jenkins_content_wrpr h2{font-size: 26px; margin-bottom: 20px; font-weight: 700;}
+                .jenkins_content_wrpr h3{font-size: 20px; margin-bottom: 20px; font-weight: 700;}
+                .jenkins_content_wrpr h4{font-size: 18px; margin-bottom: 20px; font-weight: 700;}
+                .jenkins_content_wrpr p{margin-bottom: 10px;}
+                a.viewrsults_link{background: #4e76bc; display: inline-block; padding: 10px 30px; color: #FFF;
+                text-decoration: none;}
+                a.viewrsults_link:hover{background: #1f4d9c; color:#FFF; text-decoration: none;}
+                .jsonashtml{background: #f5f5f5; padding: 20px; margin: 20px 0;}
+                .audit_table{border: #DDD solid 1px; font-size: 14px; margin-top: 15px;}
+                .audit_table tr th{border: #DDD solid 1px; padding: 10px; font-weight: bold;}
+                .audit_table tr td{border: #DDD solid 1px; padding: 10px;}
+            </style>
+
+            <div class="jenkins_content_wrpr">
+                <div class="content_div">
+
+                    <h2>Application Summary</h2>
+
+                    <p><b>URL</b>: ${it.mobileTestRun.ApplicationName}
+                    </p>
+
+                    <p><b>Test Scheduled At</b>: ${it.mobileTestRun.TestRun_StartDate}
+                    </p>
+
+                    <p>
+                        <a href="https://www.sofy.ai/loginpage" target="_blank" class="viewrsults_link">
+                            View Detailed Results on Sofy.ai
+                        </a>
+                    </p>
+
+                    <table width="100%" class="audit_table" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <th>Performance</th>
+                            <th>Visual Quality</th>
+                            <th>Security</th>
+                            <th>Reliability</th>
+                            <th>Best Practice</th>
+                        </tr>
+                        <tr>
+                            <td id="performance_td"></td>
+                            <td id="visualquality_td"></td>
+                            <td id="security_td"></td>
+                            <td id="reliability_td"></td>
+                            <td id="bestpractice_td"></td>
+
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+        </l:main-panel>
+    </l:layout>
+</j:jelly>

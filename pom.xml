@@ -21,7 +21,7 @@
         <relativePath/>
     </parent>
     <groupId>io.jenkins.plugins</groupId>
-    <artifactId>sofy_plugin</artifactId>
+    <artifactId>sofy_ai</artifactId>
     <version>1.0</version>
     <packaging>hpi</packaging>
     <properties>

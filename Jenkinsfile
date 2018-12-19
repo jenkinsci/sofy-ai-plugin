@@ -1,1 +1,3 @@
-buildPlugin()
+stage "build plugin" {
+  buildPlugin()
+}

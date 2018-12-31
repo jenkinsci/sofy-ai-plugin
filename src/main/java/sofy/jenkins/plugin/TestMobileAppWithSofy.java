@@ -31,6 +31,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
@@ -53,7 +54,7 @@ public class TestMobileAppWithSofy extends Recorder {
             listener.getLogger().println("Preparing to Stage a test run for your Application on Sofy.ai");
             String apkLocation = build.getWorkspace() + "/" + this.apkPath;
             String testRunInfo = stageMobileTestRun(listener.getLogger(), apkLocation);
-            if (!testRunInfo.isEmpty()) {
+            if (testRunInfo != null && !testRunInfo.isEmpty()) {
                 this.testRunResponse = new ObjectMapper().readValue(testRunInfo.replaceAll("[\\[\\]]", ""), CreateMobileTestRunResponse.class);
                 listener.getLogger().println("Test Run scheduled!");
             }
@@ -91,14 +92,14 @@ public class TestMobileAppWithSofy extends Recorder {
             }
 
             if (apkHandle.isDirectory()) {
-                apkHandle = Arrays.stream(Objects.requireNonNull(apkHandle.listFiles()))
+                apkHandle = Arrays.stream(apkHandle.listFiles() != null ? apkHandle.listFiles() : new File[]{})
                         .filter(file -> file.getName().toLowerCase().endsWith(".apk"))
                         .findFirst()
                         .orElse(null);
             }
 
             if (apkHandle == null || !apkHandle.getName().toLowerCase().endsWith(".apk")) {
-                logger.println("Invalid APK location provided. No '.apk' file found in provided directory: \"" + apkHandle.getAbsolutePath() + "\"");
+                logger.println("Invalid APK location provided. No '.apk' file found in provided directory: \"" + (apkHandle == null ? "" : apkHandle.getAbsolutePath()) + "\"");
                 logger.println("Unable to stage test run on Sofy.ai");
                 return "";
             }
@@ -108,16 +109,20 @@ public class TestMobileAppWithSofy extends Recorder {
             logger.println("Invalid APK location provided. Unable to stage test run on Sofy.ai");
         }
 
-        logger.println("Staging test run with the following APK: \"" + apkHandle.getAbsolutePath() + "\"");
-        FileBody fileBodyApk = new FileBody(apkHandle, ContentType.DEFAULT_BINARY);
-        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-        builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-        builder.addPart("applicationFile", fileBodyApk);
-        HttpEntity entity = builder.build();
-        httppost.setEntity(entity);
-        // wait for response
-        HttpResponse response = client.execute(httppost);
-        return new BasicResponseHandler().handleResponse(response);
+        if (apkHandle != null) {
+            logger.println("Staging test run with the following APK: \"" + apkHandle.getAbsolutePath() + "\"");
+            FileBody fileBodyApk = new FileBody(apkHandle, ContentType.DEFAULT_BINARY);
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+            builder.addPart("applicationFile", fileBodyApk);
+            HttpEntity entity = builder.build();
+            httppost.setEntity(entity);
+            // wait for response
+            HttpResponse response = client.execute(httppost);
+            return new BasicResponseHandler().handleResponse(response);
+        }
+
+        return "";
     }
 
     @Override
@@ -164,7 +169,7 @@ public class TestMobileAppWithSofy extends Recorder {
             URL url = new URL("https://api.sofy.ai/api/Plugin/validateAPIKey?api_key=" + uuid.toString());
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
             String line;
             while ((line = rd.readLine()) != null) {
                 result.append(line);

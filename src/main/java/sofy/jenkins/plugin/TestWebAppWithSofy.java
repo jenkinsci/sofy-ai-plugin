@@ -27,6 +27,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 public class TestWebAppWithSofy extends Recorder {
@@ -47,7 +48,10 @@ public class TestWebAppWithSofy extends Recorder {
     public boolean perform(AbstractBuild build, Launcher launcher, BuildListener listener) {
         try {
             listener.getLogger().println("Preparing to Stage a test run for your Website on Sofy.ai");
-            String testRunInfo = stageWebTestRun(listener.getLogger());
+            String testRunInfo = stageWebTestRun(listener.getLogger())
+                    .replace("WebTestRunID", "webTestRunID")
+                    .replace("ApplicationID", "applicationID")
+                    .replace("CreatedDatetime", "createdDateTime");
             if (!testRunInfo.isEmpty()) {
                 this.testRunResponse = new ObjectMapper().readValue(testRunInfo, CreateWebTestRunResponse.class);
                 listener.getLogger().println("Test Run scheduled!");
@@ -132,7 +136,7 @@ public class TestWebAppWithSofy extends Recorder {
             URL url = new URL("https://api.sofy.ai/api/Plugin/validateAPIKey?api_key=" + uuid.toString());
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
             String line;
             while ((line = rd.readLine()) != null) {
                 result.append(line);

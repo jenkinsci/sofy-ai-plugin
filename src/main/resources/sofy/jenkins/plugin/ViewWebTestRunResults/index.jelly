@@ -8,24 +8,30 @@
         <l:main-panel>
 
             <script>
-                let id = '${it.webTestRun.WebTestRunID}';
+                let id = '${it.webTestRun.webTestRunID}';
                 let token = '${it.apiToken}';
 
                 fetch("https://api.sofy.ai/v1/websites/testresults/summary?testrunid=" + id, {
                     headers: {
                         "SubscriptionKey": token
                     }
-                }).then(res => res.json())
-                        .then(data => data[0] || data)
-                        .then((summary) => {
-                            document.getElementById('performance_td').innerHTML = summary.Audit_Performance_Score + "%";
-                            document.getElementById('bestpractice_td').innerHTML = summary.Audit_BestPractices_Score + "%";
-                            document.getElementById('progressive_td').innerHTML = summary.Audit_Progressive_Score + "%";
-                            document.getElementById('seo_td').innerHTML = summary.Audit_SEO_Score + "%";
-                            document.getElementById('accessibility_td').innerHTML = summary.Audit_Accessibility_Score + "%";
-
-                        })
-                        .catch(e => console.log(e));
+                }).then(res => res.json()
+                )
+                .
+                then(data => data[0] || data
+                )
+                .
+                then((summary) => {
+                    document.getElementById('performance_td').innerHTML = summary.Audit_Performance_Score + "%";
+                document.getElementById('bestpractice_td').innerHTML = summary.Audit_BestPractices_Score + "%";
+                document.getElementById('progressive_td').innerHTML = summary.Audit_Progressive_Score + "%";
+                document.getElementById('seo_td').innerHTML = summary.Audit_SEO_Score + "%";
+                document.getElementById('accessibility_td').innerHTML = summary.Audit_Accessibility_Score + "%";
+                })
+                .
+                catch(e => console.log(e)
+                )
+                ;
             </script>
 
             <style type="text/css">
@@ -54,7 +60,7 @@
                     <p><b>App Name</b>: ${it.webTestRun.URL}
                     </p>
 
-                    <p><b>Test Scheduled At</b>: ${it.webTestRun.CreatedDatetime}
+                    <p><b>Test Scheduled At</b>: ${it.webTestRun.createdDatetime}
                     </p>
 
                     <p>

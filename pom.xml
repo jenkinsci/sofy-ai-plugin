@@ -36,7 +36,7 @@
          <connection>scm:git:ssh://github.com/jenkinsci/sofy-ai-plugin.git</connection>
          <developerConnection>scm:git:ssh://git@github.com/jenkinsci/sofy-ai-plugin.git</developerConnection>
          <url>https://github.com/jenkinsci/sofy-ai-plugin</url>
-	 <tag>sofy-ai-1.0</tag>
+	 <tag>sofy-ai-1.0R</tag>
     </scm>
 
     <build>

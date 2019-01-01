@@ -151,4 +151,17 @@
         </pluginRepository>
     </pluginRepositories>
 
+ <distributionManagement>
+    <repository>
+      <id>maven.jenkins-ci.org</id>
+      <name>jenkinsci-releases</name>
+      <url>http://repo.jenkins-ci.org/releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>maven.jenkins-ci.org</id>
+      <name>jenkinsci-snapshots</name>
+      <url>http://repo.jenkins-ci.org/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>	
+	
 </project>

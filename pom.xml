@@ -2,6 +2,44 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.jenkins-ci.plugins</groupId>
+        <artifactId>plugin</artifactId>
+        <version>3.4</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>io.jenkins.plugins</groupId>
+    <artifactId>sofy-ai</artifactId>
+    <version>1.0</version>
+
+    <packaging>hpi</packaging>
+    
+    <properties>
+        <jenkins.version>2.7.3</jenkins.version>
+        <java.level>8</java.level>
+        <findbugs.failOnError>false</findbugs.failOnError>
+    </properties>
+
+    <name>Sofy.AI Plugin</name>    
+    <description>Conduct Tests for your Website and Mobile Builds using Sofy.ai</description>
+
+   <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+        </license>
+   </licenses>
+
+   <url>https://wiki.jenkins.io/display/JENKINS/sofy-ai-plugin</url>
+
+    <scm>
+         <connection>scm:git:ssh://github.com/jenkinsci/sofy-ai-plugin.git</connection>
+         <developerConnection>scm:git:ssh://git@github.com/jenkinsci/sofy-ai-plugin.git</developerConnection>
+         <url>https://github.com/jenkinsci/sofy-ai-plugin</url>
+	 <tag>HEAD</tag>
+    </scm>
+
     <build>
         <plugins>
             <plugin>
@@ -14,33 +52,7 @@
             </plugin>
         </plugins>
     </build>
-    <parent>
-        <groupId>org.jenkins-ci.plugins</groupId>
-        <artifactId>plugin</artifactId>
-        <version>3.4</version>
-        <relativePath/>
-    </parent>
-    <groupId>io.jenkins.plugins</groupId>
-    <artifactId>sofy-ai</artifactId>
-    <version>1.0</version>
-    <packaging>hpi</packaging>
-    <properties>
-        <jenkins.version>2.7.3</jenkins.version>
-        <java.level>8</java.level>
-    </properties>
-    <name>Sofy.AI Plugin</name>
-    <description>Conduct Tests for your Website and Mobile Builds using Sofy.ai</description>
-    <scm>
-         <connection>scm:git:ssh://github.com/jenkinsci/SofyJenkinsPlugin.git</connection>
-         <developerConnection>scm:git:ssh://git@github.com/jenkinsci/SofyJenkinsPlugin.git</developerConnection>
-         <url>https://github.com/jenkinsci/SofyJenkinsPlugin</url>
-    </scm>
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>https://opensource.org/licenses/MIT</url>
-        </license>
-    </licenses>
+
     <dependencies>
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
@@ -125,7 +137,7 @@
             <email>waqas@sofy.ai</email>
         </developer>
     </developers>
-    <url>https://wiki.jenkins.io/display/JENKINS/sofy_plugin</url>
+    
 
     <repositories>
         <repository>
@@ -133,7 +145,6 @@
             <url>https://repo.jenkins-ci.org/public/</url>
         </repository>
     </repositories>
-
     <pluginRepositories>
         <pluginRepository>
             <id>repo.jenkins-ci.org</id>

@@ -10,13 +10,15 @@
 
     <groupId>io.jenkins.plugins</groupId>
     <artifactId>sofy-ai</artifactId>
-    <version>1.0</version>
+    <version>1.0.0-SNAPSHOT</version>
 
     <packaging>hpi</packaging>
     
     <properties>
         <jenkins.version>2.7.3</jenkins.version>
         <java.level>8</java.level>
+        <revision>0.1.0</revision>
+        <changelist>-SNAPSHOT</changelist>
         <findbugs.failOnError>false</findbugs.failOnError>
     </properties>
 
@@ -30,13 +32,13 @@
         </license>
    </licenses>
 
-   <url>https://wiki.jenkins.io/display/JENKINS/sofy-ai-plugin</url>
+    <url>https://wiki.jenkins.io/display/JENKINS/Sofy.ai+Plugin</url>
 
     <scm>
-         <connection>scm:git:ssh://github.com/jenkinsci/sofy-ai-plugin.git</connection>
-         <developerConnection>scm:git:ssh://git@github.com/jenkinsci/sofy-ai-plugin.git</developerConnection>
-         <url>https://github.com/jenkinsci/sofy-ai-plugin</url>
-	 <tag>sofy-ai-1.0</tag>
+        <connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
+        <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
+        <tag>HEAD</tag>
     </scm>
 
     <build>
@@ -150,18 +152,5 @@
             <url>https://repo.jenkins-ci.org/public/</url>
         </pluginRepository>
     </pluginRepositories>
-
- <distributionManagement>
-    <repository>
-      <id>maven.jenkins-ci.org</id>
-      <name>jenkinsci-releases</name>
-      <url>http://repo.jenkins-ci.org/releases</url>
-    </repository>
-    <snapshotRepository>
-      <id>maven.jenkins-ci.org</id>
-      <name>jenkinsci-snapshots</name>
-      <url>http://repo.jenkins-ci.org/snapshots</url>
-    </snapshotRepository>
-  </distributionManagement>	
 	
 </project>
